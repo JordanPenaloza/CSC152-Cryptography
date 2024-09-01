@@ -15,16 +15,14 @@ int contains(void *a, int alen, void *b, int blen) {
         return 0;
     }
     for (int i = 0; i <= alen - blen; i++) {
-        if (is_equal((char*)a + i, b, blen)) {
+        if (is_equal((char*)a + i, b, blen)) { //send buffer a starting from position i and buffer b to check if it matches
             return 1;
         }
     }
     return 0;
-
-
-
 }
 
+//for test casing 
 int main(int argc, char *argv[]) {
 
     char *a = argv[1];
