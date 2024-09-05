@@ -24,7 +24,7 @@ int contains(void *a, int alen, void *b, int blen) {
     }
     return 0;
 }
-
+/*
 //for test casing 
 int main() {
     // Test case 1: char buffer
@@ -69,3 +69,4 @@ int main() {
 
     return 0;
 }
+*/
