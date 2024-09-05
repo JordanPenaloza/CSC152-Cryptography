@@ -1,5 +1,6 @@
-// Program1 by Jordan Penaloza, Submitted for CSC152
-// Used https://www.tutorialspoint.com/c_standard_library/c_function_memcmp.htm to learn about memcmp function
+// Program1.c by Jordan Penaloza (jordanpenaloza@csus.edu), Submitted for CSC152 Fall 2024
+// Used memcmp() function from https://www.tutorialspoint.com/c_standard_library/c_function_memcmp.htm 
+// Checks if the contents of a buffer is inside of another
 
 #include <stdio.h>
 #include <string.h>
