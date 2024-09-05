@@ -6,9 +6,11 @@
 #include <stdint.h>
 
 //checks if sequence of bytes in b matches the sequence of bytes at a[i]
-int is_equal(void *a, void *b, int blen) {return memcmp(a, b, blen) == 0;}
+int is_equal(unsigned char *a, unsigned char *b, int blen) {return memcmp(a, b, blen) == 0;}
 
 int contains(void *a, int alen, void *b, int blen) {
+    a = (unsigned char*)a;
+    b = (unsigned char*)b;
     if (blen == 0) {
         return 1;
     }
@@ -16,7 +18,7 @@ int contains(void *a, int alen, void *b, int blen) {
         return 0;
     }
     for (int i = 0; i <= alen - blen; i++) {
-        if (is_equal((char*)a + i, b, blen)) { //send buffer a starting from position i and buffer b to check if it matches
+        if (is_equal(a + i, b, blen)) { //send buffer a starting from position i and buffer b to check if it matches
             return 1;
         }
     }
@@ -59,6 +61,11 @@ int main() {
     char a7[] = "abcdef";
     char b7[] = "";
     printf("Test case 7: %s\n", contains(a7, sizeof(a7) - 1, b7, sizeof(b7) - 1) ? "Match" : "No Match");
+
+    // Test case 8: unsigned char buffer
+    unsigned char a8[] = "abcdef";
+    unsigned char b8[] = "def";
+    printf("Test case 8: %s\n", contains(a8, sizeof(a8) - 1, b8, sizeof(b8) - 1) ? "Match" : "No Match");
 
     return 0;
 }
