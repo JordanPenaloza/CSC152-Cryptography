@@ -1,3 +1,5 @@
+// p152stream.c by Jordan Penaloza. Submitted for CSC 152 
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -39,7 +41,7 @@ void mix(uint32_t *ap, uint32_t *bp, uint32_t *cp, uint32_t *dp) {
     *dp = d;   
 }
 
-#if 1  // Set to 1 while testing and 0 for submission
+#if 0  // Set to 1 while testing and 0 for submission
 
 int main() {
     uint32_t a = 0x00010203;
