@@ -1,4 +1,4 @@
-// p152stream.c by Jordan Penaloza. Submitted for CSC 152 
+// p152.c by Jordan Penaloza. Submitted for CSC 152 
 
 #include <stdint.h>
 #include <stdlib.h>
