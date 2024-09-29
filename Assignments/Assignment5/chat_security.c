@@ -81,7 +81,7 @@ void chat_decrypt(void *k, void *ct, int ctlen, void *pt) {
 
 
 }
-#if 1     // Set to 1 while testing and 0 for submission
+#if 0     // Set to 1 while testing and 0 for submission
 int main() {
     // Define a 256-bit key (32 bytes)
     unsigned char key[32];
