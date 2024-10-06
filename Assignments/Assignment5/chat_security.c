@@ -81,12 +81,12 @@ void chat_decrypt(void *k, void *ct, int ctlen, void *pt) {
 
 
 }
-#if 0     // Set to 1 while testing and 0 for submission
+#if 0     // Set to 1 to enable testing mode
 int main() {
+    // ----- First Test: Original Test with Random Key -----
     // Define a 256-bit key (32 bytes)
     unsigned char key[32];
     RAND_bytes(key, sizeof(key));
-
 
     // Define some plaintext (example message)
     unsigned char plaintext[] = "Hello, this is a test message!";
@@ -116,6 +116,41 @@ int main() {
     // Print the decrypted plaintext
     printf("Decrypted Ciphertext: %s\n", decrypted);
 
+    // ----- Second Test: Test with Provided Ciphertext and Key -----
+    printf("\nTesting provided ciphertext and key:\n");
+
+    // Define the provided key (32 bytes), first 4 bytes are 1, 2, 3, 4, rest are 0
+    unsigned char provided_key[32] = {1, 2, 3, 4};  // First 4 bytes are 1, 2, 3, 4; rest are 0
+
+    // Define the provided ciphertext (93 bytes)
+    unsigned char provided_ciphertext[93] = {
+        0x45, 0x29, 0x18, 0x7D, 0x4D, 0x1C, 0xF3, 0x1D, 0x51, 0xBF,
+        0x1A, 0xB9, 0x25, 0x57, 0xCD, 0xE3, 0x87, 0x07, 0xED, 0x72,
+        0xA2, 0x9E, 0xD2, 0xA8, 0xEA, 0x3F, 0xA9, 0x2E, 0xE5, 0x08,
+        0x88, 0xB8, 0xE5, 0xC3, 0xA4, 0xEC, 0xE1, 0x2F, 0xD3, 0x6E,
+        0x5E, 0x92, 0xAA, 0x21, 0x2A, 0x9C, 0x7C, 0xFC, 0x62, 0x43,
+        0xA9, 0x95, 0x4B, 0x0C, 0x7F, 0xB8, 0x6C, 0x59, 0x5D, 0x5C,
+        0x56, 0x8C, 0x08, 0x52, 0x31, 0xD9, 0x03, 0x32, 0x8D, 0xA4,
+        0x09, 0x86, 0x0B, 0xBE, 0x5A, 0xE1, 0x28, 0x4C, 0x57, 0xCE,
+        0xE3, 0xAA, 0x4F, 0x7A, 0x0E, 0x11, 0x97, 0xAF, 0x89, 0x6D,
+        0x34, 0xD8, 0x1B
+    };
+
+    // Allocate space for decrypted plaintext from provided ciphertext
+    int provided_ctlen = sizeof(provided_ciphertext);
+    int provided_ptlen = provided_ctlen - 12;  // Subtract 12 bytes for the nonce
+    unsigned char provided_decrypted[provided_ptlen + 1];  // +1 for null terminator
+
+    // Decrypt the provided ciphertext
+    chat_decrypt(provided_key, provided_ciphertext, provided_ctlen, provided_decrypted);
+
+    // Null-terminate the decrypted buffer
+    provided_decrypted[provided_ptlen] = '\0';
+
+    // Print the decrypted plaintext
+    printf("Decrypted Provided Ciphertext: %s\n", provided_decrypted);
+
     return 0;
 }
 #endif
+
