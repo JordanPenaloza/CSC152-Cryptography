@@ -3,6 +3,7 @@
 #include <string.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
+#include <time.h>
 
 #define MAX_LENGTH 60
 #define CHARACTER_SET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -31,16 +32,30 @@ void digest_message(const unsigned char *message, size_t message_len, unsigned c
 
 	EVP_MD_CTX_free(mdctx);
 }
-
 void to_hex_string(unsigned char *digest, unsigned int digest_len, char *output) {
 	for(unsigned int i = 0; i < digest_len; i++) {
 		sprintf(output + (i * 2), "%02x", digest[i]);
 	}
 	output[digest_len * 2] = '\0';
 }
+int check_zeroes(int num_hex_chars, char buffer[], char *message, char *hex_output){
+	int all_zero = 1;
+        for(int i = 0; i < num_hex_chars; i++) {
+                if (buffer[i] != '0') {
+                        all_zero = 0;
+                        break;
+                }
+        }
+	if(all_zero) {
+                printf("Message: %s\n", message);
+                printf("SHA-256 DIGEST: %s\n", hex_output);
+                return 1;
+        }
+	return 0;
 
+}
 int main(int argc, char *argv[]) {
-		 	
+	srand(time(NULL)); //random seeding for rand() for true randomness in generatng ASCII	
     	if (argc != 2) {
         	printf("Usage: %s <n>\n", argv[0]);
         	return 1; 
@@ -53,17 +68,21 @@ int main(int argc, char *argv[]) {
         	return 1;  
     	}
     	printf("Mining with %d leading zero bits...\n", n);
-
+	
 	char message[MAX_LENGTH + 1] = "";
-	int count = 0;
-	size_t length = strlen(message);
-	while(length < MAX_LENGTH){
-		size_t charset_len = strlen(CHARACTER_SET);
-		message[length] = CHARACTER_SET[count % charset_len];
-		message[length + 1] = '\0';
-		length = strlen(message);
-		count++;
-		
+	int random_index = 0;
+	size_t charset_len = strlen(CHARACTER_SET);
+	
+	//infinite loop that searches for correct input until corresponding hash is foune
+	while(1){
+		size_t length = strlen(message);
+        	if (length < MAX_LENGTH) {
+            		message[length] = CHARACTER_SET[rand() % charset_len];
+            		message[length + 1] = '\0';  
+        	} else {
+            		memset(message, 0, MAX_LENGTH + 1);
+          	  	length = 0;
+       		}
 		unsigned char *digest = NULL;
         	unsigned int digest_len = 0;
         	digest_message((unsigned char *)message, strlen(message), &digest, &digest_len);
@@ -78,18 +97,9 @@ int main(int argc, char *argv[]) {
 		}
 		buffer[num_hex_chars] = '\0';
 		
-		int all_zero = 1;
-		for(int i = 0; i < num_hex_chars; i++) {
-			if (buffer[i] != '0') {
-				all_zero = 0;
-				break;
-			}
-		}
-		if(all_zero) {
-			printf("Message: %s\n", message);
-			printf("SHA-256 DIGEST: %s\n", hex_output);
-			return 0;
-		}
+		if (check_zeroes(num_hex_chars, buffer, message, hex_output)) {
+	        	return 0;  
+        	}	
 
 	}
 
