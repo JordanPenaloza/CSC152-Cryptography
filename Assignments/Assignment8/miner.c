@@ -1,5 +1,4 @@
 //miner.c by Jordan Penaloza. Submitted for CSC152.
-//
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
