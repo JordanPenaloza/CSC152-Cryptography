@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
 			printf("Found string: %s\n", charset);
 			printf("Digest: ");
 			to_hex(digest, digest_len);
+			OPENSSL_free(digest);
 			break;
 		}
 		OPENSSL_free(digest);
