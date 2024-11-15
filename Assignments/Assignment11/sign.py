@@ -24,8 +24,7 @@ def sign(p,g,gd,d,x):
         e = secrets.randbits(num_bits)
     r = pow(g, e, p) #g^e mod p
     s = (x - d * r) * pow(e, -1, p-1) % (p-1)
-    print(r)
-    print(s)
+    return r, s
 
 if __name__ == "__main__":
     main()
