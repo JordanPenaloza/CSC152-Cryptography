@@ -1,7 +1,5 @@
-import random
 import math
 import secrets
-from sympy import isprime
 import argparse
 
 def main(): 
@@ -14,7 +12,17 @@ def main():
     args = parser.parse_args()
     if not isprime(args.p):
         raise ValueError("The value of p must be a prime number.")
-    sign(args.p, args.g, args.gd, args.d, args.x)
+    r, s = sign(args.p, args.g, args.gd, args.d, args.x)
+    print(r)
+    print(s)
+
+def isprime(p):
+    if p < 2:
+        return False
+    for i in range(2, int(p ** 0.5) + 1):
+        if p % i == 0:
+            return False
+    return True
 
 
 def sign(p,g,gd,d,x):

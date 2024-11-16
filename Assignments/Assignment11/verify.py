@@ -1,4 +1,3 @@
-from sympy import isprime
 import argparse
 
 def main(): 
@@ -14,6 +13,14 @@ def main():
         raise ValueError("The value of p must be a prime number.")
     result = verify(args.p, args.g, args.gd, args.x, args.r, args.s)
     print(result)
+
+def isprime(p):
+    if p < 2:
+        return False
+    for i in range(2, int(p ** 0.5) + 1):
+        if p % i == 0:
+            return False
+    return True
 
 def verify(p,g,gd,x,r,s):
     gx = pow(g,x,p)
