@@ -7,7 +7,7 @@
 */
 
 uint32_t poly(uint32_t *a, int n, uint32_t k, uint32_t p) {
-    uint64_t acc = k; //to mitigate buffer overflow use 64 instead of 32
+    uint64_t acc = k; 
     for(int i = 0; i < n; i++){
         acc = acc * k;
         acc = acc + a[i];
