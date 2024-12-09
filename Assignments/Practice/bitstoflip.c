@@ -8,4 +8,3 @@ int bits_to_flip (int a, int b) {
     return count; 
 }
 
-//test commit 3
